@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"github.com/nladuo/go-zk-fifo/fifo"
-	//"time"
 )
 
 var (
@@ -16,9 +15,9 @@ var (
 func consume(f *fifo.DistributedFIFO) {
 	for {
 		//time.Sleep(2 * time.Second)
-		seq, data := f.Pop()
+		data := f.Pop()
 		if data != nil {
-			fmt.Println("Pop : ", seq, " ", data)
+			fmt.Println("Pop : ", data)
 		}
 	}
 }

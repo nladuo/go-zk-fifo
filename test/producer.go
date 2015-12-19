@@ -16,7 +16,7 @@ var (
 
 func produce(f *fifo.DistributedFIFO) {
 	for {
-		time.Sleep(2 * time.Second)
+		time.Sleep(1000 * time.Millisecond)
 		data := "data---->" + strconv.FormatInt(time.Now().UnixNano(), 10)
 		fmt.Println("Push : ", data)
 		f.Push(data)
@@ -30,7 +30,7 @@ func main() {
 
 	}
 	myfifo := fifo.NewFifo(basePath, fifoData, prefix)
-	for i := 0; i < 10; i++ {
+	for i := 0; i < 20; i++ {
 		go produce(myfifo)
 	}
 

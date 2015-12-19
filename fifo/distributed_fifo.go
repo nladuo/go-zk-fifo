@@ -3,8 +3,8 @@ package fifo
 
 import (
 	"encoding/json"
-	"fmt"
 	"github.com/samuel/go-zookeeper/zk"
+	"log"
 )
 
 type DistributedFIFO struct {
@@ -22,15 +22,15 @@ func NewFifo(path string, data []byte, prefix string) *DistributedFIFO {
 		panic(err.Error())
 	}
 	if !isExsit {
-		fmt.Println("create the base znode")
+		log.Println("create the znode:" + path)
 		getZkConn().Create(path, data, int32(0), zk.WorldACL(zk.PermAll))
 	} else {
-		fmt.Println("the znode has exist")
+		log.Println("the znode " + path + " existed")
 	}
 	return &fifo
 }
 
-//sequentially put a data into queue
+//sequentially create a zonde
 func (this *DistributedFIFO) Push(data interface{}) {
 	dataBytes, err := json.Marshal(data)
 	if err != nil {
@@ -47,12 +47,12 @@ func (this *DistributedFIFO) Size() (int, error) {
 }
 
 //get one data from znodes and delete the chosen znode
-func (this *DistributedFIFO) Pop() (string, interface{}) {
+func (this *DistributedFIFO) Pop() interface{} {
 	defer func() {
 		e := recover()
 		if e == zk.ErrConnectionClosed {
 			//try reconnect the zk server
-			fmt.Println("connection closed, reconnect to the zk server")
+			log.Println("connection closed, reconnect to the zk server")
 			reConnectZk()
 		}
 		if (e != nil) && (e != zk.ErrNoNode) {
@@ -85,5 +85,5 @@ REGET:
 	if err != nil {
 		panic(err)
 	}
-	return firstPath, data
+	return data
 }
