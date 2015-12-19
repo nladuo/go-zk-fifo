@@ -6,6 +6,7 @@ This project is based on zookeeper. Check out the zookeeper configuration <a hre
 
 ## Installation
 ```
+go get github.com/samuel/go-zookeeper
 go get github.com/nladuo/go-zk-fifo   
 ```
 ## Example
