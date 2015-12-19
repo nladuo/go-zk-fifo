@@ -6,10 +6,10 @@ import (
 	"strings"
 )
 
-func GetMinIndex(strs []string, prefix string) int {
+func getMinIndex(strs []string, prefix string) int {
 	index := 0
 	min := 2147483648
-	for i := 0; i < len(children); i++ {
+	for i := 0; i < len(strs); i++ {
 		strVal := strings.TrimPrefix(strs[i], prefix)
 		num, err := strconv.Atoi(strVal)
 		if err != nil {

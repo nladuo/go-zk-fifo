@@ -3,8 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/nladuo/go-zk-fifo/fifo"
-	"strconv"
-	"time"
+	//"time"
 )
 
 var (
@@ -14,24 +13,21 @@ var (
 	prefix   string   = "seq-"
 )
 
-func produce(f *fifo.DistributedFIFO) {
+func consume(f *fifo.DistributedFIFO) {
 	for {
-		time.Sleep(2 * time.Second)
-		data := "data---->" + strconv.FormatInt(time.Now().UnixNano(), 10)
-		fmt.Println("Push : ", data)
-		f.Push(data)
+		//time.Sleep(2 * time.Second)
+		seq, data := f.Pop()
+		if data != nil {
+			fmt.Println("Pop : ", seq, " ", data)
+		}
 	}
 }
 
 func main() {
-	err := fifo.EstablishZkConn(hosts)
-	if err != nil {
-		panic(err)
-
-	}
+	fifo.EstablishZkConn(hosts)
 	myfifo := fifo.NewFifo(basePath, fifoData, prefix)
 	for i := 0; i < 10; i++ {
-		go produce(myfifo)
+		go consume(myfifo)
 	}
 
 	ch := make(chan int)

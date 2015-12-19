@@ -1,3 +1,4 @@
+//the zk initialization
 package fifo
 
 import (
@@ -14,16 +15,17 @@ const (
 	timeOut = 6
 )
 
-func GetZkConn() *zk.Conn {
+func getZkConn() *zk.Conn {
 	return zkConn
 }
 
-func ReConnectZk() {
+func reConnectZk() {
 	EstablishZkConn(hosts)
 }
 
 func EstablishZkConn(hosts []string) error {
-	zkConn, _, err := zk.Connect(hosts, timeOut*time.Second)
+	var err error
+	zkConn, _, err = zk.Connect(hosts, timeOut*time.Second)
 	return err
 }
 
