@@ -43,7 +43,7 @@ func main() {
 }
 
 ```
-### Producer And Consumor
+### Producer And Consumer
 <b>start the producer</b>
 ```shell
 go run $GOPATH/src/github.com/nladuo/go-zk-fifo/test/producer.go
