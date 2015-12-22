@@ -1,7 +1,8 @@
+//some algorism
 package fifo
 
 import (
-	"fmt"
+	"log"
 	"strconv"
 	"strings"
 )
@@ -13,7 +14,7 @@ func getMinIndex(strs []string, prefix string) int {
 		strVal := strings.TrimPrefix(strs[i], prefix)
 		num, err := strconv.Atoi(strVal)
 		if err != nil {
-			fmt.Println("fifo.getMinIndex() , conversion err")
+			log.Println("fifo.getMinIndex() , conversion err")
 			panic(err)
 		}
 		if num < min {

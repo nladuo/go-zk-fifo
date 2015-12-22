@@ -10,6 +10,7 @@ go get github.com/samuel/go-zookeeper
 go get github.com/nladuo/go-zk-fifo   
 ```
 ## Example
+### Basic
 ```go
 package main
 
@@ -41,4 +42,13 @@ func main() {
         fmt.Println(data)
 }
 
+```
+### Producer And Consumor
+<b>start the producer</b>
+```shell
+go run $GOPATH/src/github.com/nladuo/go-zk-fifo/test/producer.go
+```
+<b>start the consumer</b>
+```shell
+go run $GOPATH/src/github.com/nladuo/go-zk-fifo/test/consumer.go
 ```

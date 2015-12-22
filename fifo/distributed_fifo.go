@@ -1,4 +1,5 @@
 // the fifo struct
+// Note: the one fifo's max index cannot exceed the range of int32
 package fifo
 
 import (

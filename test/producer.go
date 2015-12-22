@@ -16,10 +16,15 @@ var (
 
 func produce(f *fifo.DistributedFIFO) {
 	for {
-		time.Sleep(1 * time.Millisecond)
-		data := "data---->" + strconv.FormatInt(time.Now().UnixNano(), 10)
-		fmt.Println("Push : ", data)
-		f.Push(data)
+		size, err := f.Size()
+		if err != nil {
+			panic(err)
+		}
+		if size < 100 {
+			data := "data---->" + strconv.FormatInt(time.Now().UnixNano(), 10)
+			fmt.Println("Push : ", data)
+			f.Push(data)
+		}
 	}
 }
 
@@ -27,7 +32,6 @@ func main() {
 	err := fifo.EstablishZkConn(hosts)
 	if err != nil {
 		panic(err)
-
 	}
 	myfifo := fifo.NewFifo(basePath, fifoData, prefix)
 	for i := 0; i < 3; i++ {
