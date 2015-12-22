@@ -5,16 +5,19 @@ import (
 	"encoding/json"
 	"github.com/samuel/go-zookeeper/zk"
 	"log"
+	"sync"
 )
 
 type DistributedFIFO struct {
 	prefix   string //the prefix of the distributed set znode
 	basePath string
+	lock     *sync.Mutex
 }
 
 // create the fifo
 func NewFifo(path string, data []byte, prefix string) *DistributedFIFO {
 	var fifo DistributedFIFO
+	fifo.lock = new(sync.Mutex)
 	fifo.prefix = prefix
 	fifo.basePath = path
 	isExsit, _, err := getZkConn().Exists(path)
@@ -42,12 +45,15 @@ func (this *DistributedFIFO) Push(data interface{}) {
 
 //get the size of the queue
 func (this *DistributedFIFO) Size() (int, error) {
+	this.lock.Lock()
 	chidren, _, err := getZkConn().Children(this.basePath)
+	this.lock.Unlock()
 	return len(chidren), err
 }
 
 //get one data from znodes and delete the chosen znode
 func (this *DistributedFIFO) Pop() interface{} {
+	this.lock.Lock()
 	defer func() {
 		e := recover()
 		if e == zk.ErrConnectionClosed {
@@ -68,6 +74,7 @@ REGET:
 	if len(chidren) == 0 {
 		goto REGET
 	}
+
 	index := getMinIndex(chidren, this.prefix)
 	firstPath := this.basePath + "/" + chidren[index] // for linux the file Seperator is /
 	dataBytes, _, err := getZkConn().Get(firstPath)
@@ -85,5 +92,6 @@ REGET:
 	if err != nil {
 		panic(err)
 	}
+	this.lock.Unlock()
 	return data
 }

@@ -25,7 +25,7 @@ func consume(f *fifo.DistributedFIFO) {
 func main() {
 	fifo.EstablishZkConn(hosts)
 	myfifo := fifo.NewFifo(basePath, fifoData, prefix)
-	for i := 0; i < 10; i++ {
+	for i := 0; i < 5; i++ {
 		go consume(myfifo)
 	}
 
