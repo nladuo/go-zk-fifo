@@ -1,5 +1,5 @@
 # go-zk-fifo
-a fifo queue using golang and based on zookeeper
+a distributed fifo queue using golang and based on zookeeper
 
 ## Note
 This project is based on zookeeper. Check out the zookeeper configuration <a href="http://zookeeper.apache.org/doc/r3.4.6/zookeeperStarted.html">here</a>.
