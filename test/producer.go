@@ -22,8 +22,8 @@ func produce(f *fifo.DistributedFIFO) {
 		}
 		if size < 100 {
 			data := "data---->" + strconv.FormatInt(time.Now().UnixNano(), 10)
-			fmt.Println("Push : ", data)
-			f.Push(data)
+			fmt.Println("Put : ", data)
+			f.Put([]byte(data))
 		}
 	}
 }

@@ -14,10 +14,9 @@ var (
 
 func consume(f *fifo.DistributedFIFO) {
 	for {
-		//time.Sleep(2 * time.Second)
-		data := f.Pop()
-		if data != nil {
-			fmt.Println("Pop : ", data)
+		data := f.Poll()
+		if len(data) != 0 {
+			fmt.Println("Poll : ", string(data))
 		}
 	}
 }

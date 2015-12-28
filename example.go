@@ -21,9 +21,9 @@ func main() {
 	}
 	//create the distributed fifo
 	myfifo := fifo.NewFifo(basePath, fifoData, prefix)
-	//push data into fifo
-	myfifo.Push("go-zk-fifo")
-	//pop data from fifo
-	data := myfifo.Pop()
-	fmt.Println(data)
+	//put one data into fifo
+	myfifo.Put([]byte("go-zk-fifo"))
+	//get one data from fifo
+	data := myfifo.Poll()
+	fmt.Println(string(data))
 }

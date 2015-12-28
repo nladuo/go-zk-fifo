@@ -12,7 +12,7 @@ var (
 )
 
 const (
-	timeOut = 6
+	timeOut = 20
 )
 
 func getZkConn() *zk.Conn {
@@ -25,7 +25,11 @@ func reConnectZk() {
 
 func EstablishZkConn(hosts []string) error {
 	var err error
+RECONNECT:
 	zkConn, _, err = zk.Connect(hosts, timeOut*time.Second)
+	if err != nil {
+		goto RECONNECT
+	}
 	return err
 }
 
